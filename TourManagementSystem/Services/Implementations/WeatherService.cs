@@ -87,6 +87,19 @@ namespace TourManagementSystem.Services.Implementations
 
         public async Task<CurrentWeatherResponseDto> GetCurrentWeatherAsync(string city)
         {
+            // Маппинг русских названий на английские
+            var map = new Dictionary<string, string>
+            {
+                {"Москва", "Moscow"},
+                {"Первоуральск", "Pervouralsk"},
+                {"Екатеринбург", "Yekaterinburg"},
+                {"Санкт-Петербург", "Saint Petersburg"},
+                {"Краснодар", "Krasnodar"}
+            };
+
+            if (map.ContainsKey(city))
+                city = map[city];
+
             var cacheKey = $"current_weather_{city}";
 
             if (_cache.TryGetValue(cacheKey, out CurrentWeatherResponseDto? cachedResult) && cachedResult != null)
@@ -116,7 +129,6 @@ namespace TourManagementSystem.Services.Implementations
                     Icon = $"https://openweathermap.org/img/w/{data.GetProperty("weather")[0].GetProperty("icon").GetString()}.png"
                 };
 
-                // Кэшируем на 30 минут
                 _cache.Set(cacheKey, result, TimeSpan.FromMinutes(30));
 
                 return result;
