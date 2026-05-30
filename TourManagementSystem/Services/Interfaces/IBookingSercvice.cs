@@ -22,5 +22,7 @@ namespace TourManagementSystem.Services.Interfaces
 
         // Метод для создания бронирования администратором (без аккаунта)
         Task<BookingResponseDto> CreateAdminBookingWithoutAccountAsync(AdminBookingCreateDto createDto);
+        // Получить только гостевые бронирования (где userId = null)
+        Task<List<BookingResponseDto>> GetGuestBookingsAsync();
     }
 }

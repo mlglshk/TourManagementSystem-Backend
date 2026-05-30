@@ -218,5 +218,15 @@ namespace TourManagementSystem.Controllers
                 return BadRequest(new { message = ex.Message });
             }
         }
+
+
+        // GET: api/bookings/guest - Получение только гостевых бронирований (админ)
+        [HttpGet("guest")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<List<BookingResponseDto>>> GetGuestBookings()
+        {
+            var bookings = await _bookingService.GetGuestBookingsAsync();
+            return Ok(bookings);
+        }
     }
 }

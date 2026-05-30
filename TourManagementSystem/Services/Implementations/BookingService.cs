@@ -416,5 +416,17 @@ namespace TourManagementSystem.Services.Implementations
             return MapToDto(booking);
         }
 
+        public async Task<List<BookingResponseDto>> GetGuestBookingsAsync()
+        {
+            var bookings = await _context.Bookings
+                .Include(b => b.TourSchedule)
+                    .ThenInclude(ts => ts.Tour)
+                .Where(b => b.UserId == null || b.UserId == 0)  // гостевые = нет userId
+                .OrderByDescending(b => b.BookingDate)
+                .ToListAsync();
+
+            return bookings.Select(MapToDto).ToList();
+        }
+
     }
 }

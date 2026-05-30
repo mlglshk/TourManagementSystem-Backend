@@ -14,21 +14,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddEnvironmentVariables();
 
 // CORS
+// CORS - ПОЛНОСТЬЮ ОТКРЫТО ДЛЯ РАЗРАБОТКИ
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowVueApp", policy =>
+    options.AddPolicy("AllowAll", policy =>
     {
-        policy.WithOrigins(
-            "http://localhost:5173", 
-            "https://localhost:5173", 
-            "http://localhost:3000",
-            "http://localhost:8080",
-            "http://10.128.97.223:5173")
+        policy.AllowAnyOrigin()
               .AllowAnyHeader()
-              .AllowAnyMethod()
-              .AllowCredentials();
+              .AllowAnyMethod();
     });
 });
+
 
 // === КЛЮЧЕВОЕ: строка подключения из переменной ===
 var dbConnectionString = Environment.GetEnvironmentVariable("DB_CONNECTION");
