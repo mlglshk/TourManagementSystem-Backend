@@ -304,6 +304,18 @@ namespace TourManagementSystem.Data
                 // Значения по умолчанию
                 entity.Property(w => w.CachedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
             });
+
+            modelBuilder.Entity<Notification>(entity =>
+            {
+                entity.ToTable("notifications");
+                entity.Property(n => n.Id).HasColumnName("id");
+                entity.Property(n => n.UserId).HasColumnName("user_id");
+                entity.Property(n => n.Title).HasColumnName("title");
+                entity.Property(n => n.Message).HasColumnName("message");
+                entity.Property(n => n.IsRead).HasColumnName("is_read");
+                entity.Property(n => n.RelatedBookingId).HasColumnName("related_booking_id");
+                entity.Property(n => n.CreatedAt).HasColumnName("created_at");
+            });
         }
     }
 }
